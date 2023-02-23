@@ -6,7 +6,8 @@ export class DB {
   collection;
 
   constructor() {
-    this.client = new MongoClient("mongodb+srv://user:eEr2JuznlqXxF4zh@cluster0.0bqqke9.mongodb.net/?retryWrites=true&w=majority");
+    const { DB_USER, DB_PASS, DB_HOST } = process.env;
+    this.client = new MongoClient(`mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/?retryWrites=true&w=majority`);
     this.db = this.client.db('escaperocamvp');
     this.collection = this.db.collection('highscores');
   }
