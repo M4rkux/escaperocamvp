@@ -15,8 +15,7 @@ app.get('/', async (req, res) => {
 app.post('/', async (req, res) => {
   const { nick, moves, time } = req.body;
   const highscore = new Highscore(nick, moves, time);
-  await databaseUtil.insert(highscore);
-  res.send('ok');
+  res.send(await databaseUtil.insert(highscore));
 });
 
 const port = process.env.PORT || 5000;

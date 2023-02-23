@@ -13,6 +13,8 @@ export class DB {
   }
 
   async insert(highscore) {
+    if (!this.validateHighscore(highscore)) return "Validation failed";
+
     await this.collection.insertOne({
       nick: highscore.nick,
       moves: highscore.moves,
@@ -24,6 +26,14 @@ export class DB {
 
   async list() {
     const cursor = this.collection.find({}, {projection: { _id: 0 }}).sort({ moves: 1, time: 1, createdAt: -1 }).limit(5);
-    return await cursor.toArray();
+    return {
+      data: await cursor.toArray()
+    }
+  }
+
+  validateHighscore(highscore) {
+    return highscore?.nick?.length &&
+      highscore?.moves &&
+      highscore?.time;
   }
 }
